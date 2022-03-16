@@ -5,11 +5,12 @@ networks:
     name: laravel
     
 services:
-  nginx:
+
+  apache:
     build:
       context: .
-      dockerfile: nginx.dockerfile
-    container_name: nginx
+      dockerfile: apache.dockerfile
+    container_name: apache
     ports:
       - 80:80
       - 443:443
