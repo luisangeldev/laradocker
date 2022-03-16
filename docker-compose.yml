@@ -5,12 +5,11 @@ networks:
     name: laravel
     
 services:
-
-  apache:
+  nginx:
     build:
       context: .
-      dockerfile: apache.dockerfile
-    container_name: apache
+      dockerfile: nginx.dockerfile
+    container_name: nginx
     ports:
       - 80:80
       - 443:443
@@ -20,14 +19,22 @@ services:
       - laravel
 
   php:
-    image: php:8.0.16-fpm-alpine3.14
+    build:
+      context: .
+      dockerfile: php.dockerfile
     container_name: php
+    volumes:
+      - ./src:/var/www/html
     networks:
       - laravel
 
   mysql:
     image: mysql:8.0.28
     container_name: mysql
+    ports:
+      - 4306:3306
+    volumes:
+      - ./mysql:/var/lib/mysql
     environment:
       MYSQL_DATABASE: laraveldb
       MYSQL_USER: laravel
